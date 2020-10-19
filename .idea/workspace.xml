@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a5def57c-94d8-443e-a06a-5ae998ad22e4" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1itnaylQsYzxnw1FtVa4oLvVdKi" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/page/manage/make_up" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/page/manage/make_up" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a5def57c-94d8-443e-a06a-5ae998ad22e4" name="Default Changelist" comment="" />
+      <created>1602735823700</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602735823700</updated>
+      <workItem from="1602735824854" duration="16658000" />
+      <workItem from="1602854425534" duration="3090000" />
+      <workItem from="1602898580251" duration="3901000" />
+      <workItem from="1602933585433" duration="381000" />
+      <workItem from="1603070051609" duration="72000" />
+      <workItem from="1603070130054" duration="79000" />
+      <workItem from="1603070467272" duration="44000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="104" y="62" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602735885790">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="104" y="62" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1602735885790" />
+    <state width="1259" height="185" key="GridCell.Tab.0.bottom" timestamp="1602945694796">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="185" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1602945694796" />
+    <state width="1259" height="212" key="GridCell.Tab.0.bottom/0.23.1280.722@0.23.1280.722" timestamp="1602774381414" />
+    <state width="1259" height="185" key="GridCell.Tab.0.center" timestamp="1602945694794">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="185" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1602945694794" />
+    <state width="1259" height="212" key="GridCell.Tab.0.center/0.23.1280.722@0.23.1280.722" timestamp="1602774381413" />
+    <state width="1259" height="185" key="GridCell.Tab.0.left" timestamp="1602945694794">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="185" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1602945694793" />
+    <state width="1259" height="212" key="GridCell.Tab.0.left/0.23.1280.722@0.23.1280.722" timestamp="1602774381413" />
+    <state width="1259" height="185" key="GridCell.Tab.0.right" timestamp="1602945694795">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="185" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1602945694795" />
+    <state width="1259" height="212" key="GridCell.Tab.0.right/0.23.1280.722@0.23.1280.722" timestamp="1602774381414" />
+    <state x="141" y="39" key="SettingsEditor" timestamp="1603070496200">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="141" y="39" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1603070496200" />
+    <state x="338" y="155" width="604" height="490" key="find.popup" timestamp="1602905902142">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="338" y="155" width="604" height="490" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1602905902142" />
+    <state x="462" y="301" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1603070156351">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="462" y="301" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1280.800@0.0.1280.800" timestamp="1603070156351" />
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1602855512331">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1602855512331" />
+  </component>
+</project>
