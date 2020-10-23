@@ -9,11 +9,12 @@ export default {
         // this.getApp();
     },
     methods: {
-        save(url, params, visible) {
+        save(url, params,config, visible) {
             url = "http://localhost:8080"+ url;
-            this.$http.post(url, params).then(({body}) => {
+            this.$http.post(url, params, config).then(({body}) => {
                 console.log(body);
                 if (body.success === true) {
+                    this.file = null;
                     this.$message.success(body.message);
                     this.queryList();
                     if (visible !== '') {
@@ -24,11 +25,12 @@ export default {
                 this.$message.error('操作失败');
             })
         },
-        update(url, params, visible) {
+        update(url, params,config, visible) {
             url = "http://localhost:8080"+ url;
-            this.$http.put(url, params).then(({body}) => {
+            this.$http.put(url, params, config).then(({body}) => {
                 console.log(body);
                 if (body.success === true) {
+                    this.file = null;
                     this.$message.success(body.message);
                     this.queryList();
                     if (visible !== '') {

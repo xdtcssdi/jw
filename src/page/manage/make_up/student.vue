@@ -255,8 +255,7 @@ export default {
     },
     uploadFile(file) {
       let form = new FormData();
-      form.append("file", file)
-
+      form.append("file", file);
       let config = {
         headers: {
           'Content-Type': 'multipart/form-data'

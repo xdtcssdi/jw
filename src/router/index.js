@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router';
 import info from '@/page/manage/make_up/info'
-import message from '@/page/manage/message/message'
 import student from '@/page/manage/make_up/student'
 import teacher from "@/page/manage/make_up/teacher"
+import assignment from "../page/manage/assignment/assignment";
+import address from "../page/manage/message/address";
 
 Vue.use(Router);
 const routerConfig = [
@@ -16,6 +17,24 @@ const routerConfig = [
         name: '补考信息管理',
         icon: 'el-icon-menu',
         component: info,
+        meta: {
+            requireAuth: true, // 判断是否需要登录
+        },
+    },
+    {
+        path: '/assignment',
+        name: '作业管理',
+        icon: 'el-icon-menu',
+        component: assignment,
+        meta: {
+            requireAuth: true, // 判断是否需要登录
+        },
+    },
+    {
+        path: '/address',
+        name: '通讯录管理',
+        icon: 'el-icon-menu',
+        component: address,
         meta: {
             requireAuth: true, // 判断是否需要登录
         },
@@ -34,15 +53,6 @@ const routerConfig = [
         name: '监考老师信息管理',
         icon: 'el-icon-menu',
         component: teacher,
-        meta: {
-            requireAuth: true, // 判断是否需要登录
-        },
-    },
-    {
-        path: '/message',
-        name: '消息管理',
-        icon: 'el-icon-menu',
-        component: message,
         meta: {
             requireAuth: true, // 判断是否需要登录
         },

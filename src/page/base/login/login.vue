@@ -77,8 +77,11 @@ export default {
         if (valid) {
           this.$http.get(url, {}).then(({body}) => {
             if (body.success === true) {
+
               localStorage.username = body.data.username;
               localStorage.type = this.loginForm.type;
+              localStorage.id = body.data.id;
+
               window.location.href = "/make_up";
             } else {
               this.$message.error(body.message);

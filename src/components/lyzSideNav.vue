@@ -54,8 +54,23 @@
               {'path':'/make_up', 'name':'补考信息管理','icon':'el-icon-menu'},
               {'path':'/student', 'name':'补考学生信息管理','icon':'el-icon-menu'},
               {'path':'/teacher', 'name':'监考老师信息管理','icon':'el-icon-menu'},
-              {'path':'/message', 'name':'系统消息','icon':'el-icon-message'}
-            ];
+              {'path':'/assignment', 'name':'作业信息管理','icon':'el-icon-menu'},];
+
+        if (localStorage.type === "student"){
+          menuList = [
+            {'path':'/make_up', 'name':'补考信息管理','icon':'el-icon-menu'},
+            {'path':'/assignment', 'name':'作业信息管理','icon':'el-icon-menu'},
+            {'path':'/address', 'name':'通讯录管理','icon':'el-icon-menu'},];
+        }
+
+        if (localStorage.type === "teacher"){
+          menuList = [
+            {'path':'/make_up', 'name':'补考信息管理','icon':'el-icon-menu'},
+            {'path':'/assignment', 'name':'作业信息管理','icon':'el-icon-menu'},
+            {'path':'/address', 'name':'通讯录管理','icon':'el-icon-menu'},];
+        }
+
+
             this.routerList = menuList;
             this.$store.commit('setRouteList',this.routerList );
       },

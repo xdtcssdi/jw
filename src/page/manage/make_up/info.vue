@@ -5,23 +5,22 @@
         :label="label"
         @handleSizeChange="handleSizeChange"
         @handleCurrentChange="handleCurrentChange">
-      <div slot="banner" class="top-right">
-        <el-upload
-            :limit=1
-            :auto-upload="false"
-            accept=".xlsx"
-            :action="UploadUrl()"
-            :on-change="fileChange"
-            :before-upload="beforeUploadFile"
-            :on-success="handleSuccess"
-            :on-error="handleError">
-          <el-button type="primary" size="small">点击上传</el-button>
-        </el-upload>
-        &nbsp;&nbsp;
-        <el-button type="primary" size="small" @click="createInfo" slot="reference">新增</el-button>&nbsp;
+        <div slot="banner" class="top-right" v-show="is_student===false">
+          <el-upload
+              :limit=1
+              :auto-upload="false"
+              accept=".xlsx"
+              :action="UploadUrl()"
+              :on-change="fileChange"
+              :before-upload="beforeUploadFile"
+              :on-success="handleSuccess"
+              :on-error="handleError">
+            <el-button type="primary" size="small">点击上传</el-button>
+          </el-upload>
+          &nbsp;&nbsp;
+          <el-button type="primary" size="small" @click="createInfo" slot="reference">新增</el-button>&nbsp;
+        </div>
 
-
-      </div>
       <div slot="main" class="main-body">
         <el-table
             :data="tableData"
@@ -39,26 +38,28 @@
               :prop="data.prop"
               :label="data.label"
               :min-width="data['min-width']"
-              :align="data.align"
-          >
+              :align="data.align">
           </el-table-column>
-          <el-table-column
-              fixed="right"
-              label="操作"
-              align="center"
-              min-width="120">
-            <template slot-scope="scope">
-              <el-button type="text" size="mini" class="el-button--info"
-                         @click="modifyInfo(scope.row.id)">修改
-              </el-button>
-              <el-button type="text" size="mini" class="danger-text"
-                         @click="deleteInfo(scope.row.id)">删除
-              </el-button>
-            </template>
-          </el-table-column>
+
+            <el-table-column
+                fixed="right"
+                label="操作"
+                align="center"
+                min-width="120">
+              <template slot-scope="scope">
+                <el-button type="text" size="mini" class="el-button--info"
+                           @click="modifyInfo(scope.row.id)">修改
+                </el-button>
+                <el-button type="text" size="mini" class="danger-text"
+                           @click="deleteInfo(scope.row.id)">删除
+                </el-button>
+              </template>
+            </el-table-column>
+
+
+
         </el-table>
       </div>
-
     </lyz-layout>
     <el-dialog :title="'添加补考信息'" :visible.sync="messageVisible" width="33%" center
                class="user-dialog">
@@ -186,6 +187,7 @@ export default {
           {required: true, message: '请输入结束时间', trigger: 'blur'}
         ]
       },
+      is_student: false,
       multipleSelection: [],//多选的数据
       pickerOptions: {},
       tableData: [],
@@ -248,17 +250,34 @@ export default {
     //   this.pagination.pageIndex = 1;
     //   this.queryList();
     // }, 1000));
+    this.changeStatus();
   },
   methods: {
+    changeStatus(){
+      if(localStorage.type==='student'){
+        this.is_student = true;
+      }
+    },
     queryList() {
       this.loginLoading = true;
-      let params = {
-        page: this.pagination.pageIndex,
-        pageCount: this.pagination.pageSize
-      };
+      let params = null;
+      if (localStorage.type === "student"){
+        params = {
+          page: this.pagination.pageIndex,
+          pageCount: this.pagination.pageSize,
+          type: localStorage.type,
+          id:localStorage.id
+        };
+      }else{
+        params = {
+          page: this.pagination.pageIndex,
+          pageCount: this.pagination.pageSize,
+          type: localStorage.type,
+          id:localStorage.id
+        };
+      }
       this.$http.get('http://localhost:8080/makeup-exam/', {params: params}).then(({body}) => {
         if (body.success === true) {
-          console.log(body.data);
           responseText(body.data.records).forEach((item) => {
             if (item.stime != null) {
               item.stime = convertData(item.stime);
@@ -331,9 +350,13 @@ export default {
       this.multipleSelection = val;
     },
     deleteInfo(id) {
+      if (this.is_student)
+        return;
       this.delete('/makeup-exam/' + id);
     },
     modifyInfo(id) {
+      if (this.is_student)
+        return;
       this.isModify = true;
       this.$http.get('http://localhost:8080/makeup-exam/' + id).then(({body}) => {
         if (body.success === true) {
@@ -368,6 +391,8 @@ export default {
       })
     },
     createInfo(row) {
+      if (localStorage.type === "student")
+        return;
       this.isModify = false;
       this.messageVisible = true;
       let _form = Object.assign({}, row);

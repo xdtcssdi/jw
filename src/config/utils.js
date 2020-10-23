@@ -9,7 +9,6 @@ const responseText = (val)=>{
 
 
 
-
 const formatDate = (time,type='-')=>{
   let data = new Date(time);
   let year = data.getFullYear();
@@ -51,5 +50,5 @@ export {
   responseText,
   formatDate,
   formatTime,
-  debounce,
+  debounce
 }
