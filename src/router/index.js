@@ -5,6 +5,7 @@ import student from '@/page/manage/make_up/student'
 import teacher from "@/page/manage/make_up/teacher"
 import assignment from "../page/manage/assignment/assignment";
 import address from "../page/manage/message/address";
+import exam from "../page/manage/make_up/exam";
 
 Vue.use(Router);
 const routerConfig = [
@@ -17,6 +18,15 @@ const routerConfig = [
         name: '补考信息管理',
         icon: 'el-icon-menu',
         component: info,
+        meta: {
+            requireAuth: true, // 判断是否需要登录
+        },
+    },
+    {
+        path: '/exam',
+        name: '考试信息管理',
+        icon: 'el-icon-menu',
+        component: exam,
         meta: {
             requireAuth: true, // 判断是否需要登录
         },

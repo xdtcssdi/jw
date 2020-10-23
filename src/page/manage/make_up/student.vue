@@ -5,6 +5,8 @@
         :label="label"
         @handleSizeChange="handleSizeChange"
         @handleCurrentChange="handleCurrentChange">
+
+
       <div slot="banner" class="top-right">
 
         <el-upload
@@ -19,7 +21,11 @@
           <el-button type="primary" size="small">点击上传</el-button>
         </el-upload>
         &nbsp;&nbsp;
+
         <el-button type="primary" size="small" @click="createStudent" slot="reference">新增</el-button> &nbsp;
+
+
+        <el-button type="primary" size="small" @click="sendEmail" slot="reference" v-show="u_type==='jw'">发邮件</el-button> &nbsp;
 
       </div>
       <div slot="main" class="main-body">
@@ -31,7 +37,7 @@
             height="100%"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-          <!--          <el-table-column type="selection" width="55"></el-table-column>-->
+          <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column
               v-for="(data,index) in tableHeader"
               :show-overflow-tooltip="true"
@@ -129,6 +135,7 @@ export default {
   name: "student",
   data() {
     return {
+      u_type: localStorage.type,
       queryType: '',
       queryKeyword: '',
       pagination: {
@@ -266,8 +273,12 @@ export default {
           if (res.body) {
             this.$message.success("导入成功");
             this.queryList();
+
           } else {
             this.$message.error("格式错误");
+          }
+          if (visible !== '') {
+            this[visible] = false;
           }
         }
       }).catch((error) => {
@@ -303,7 +314,9 @@ export default {
           _form.email = params.email;
 
           this.messageForm = _form;
-
+          if (visible !== '') {
+            this[visible] = false;
+          }
 
         } else {
           this.$message.error(body.message);
@@ -343,6 +356,40 @@ export default {
       };
       console.log(params);
       this.update('/student/', params, 'messageVisible');
+    },
+    sendEmail(){
+      this.$prompt('请输入发送内容', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        console.log(this.multipleSelection[0].email);
+        let url = "http://localhost:8080/user/sendMail?body="+value;
+        this.multipleSelection.forEach((item) => {
+          url += "&to=" + item.email;
+        });
+        console.log(url);
+        this.$http.get(url).then(({body}) => {
+
+          if (body.success === true) {
+            this.$message({
+              type: 'success',
+              message: "提交发送成功"
+            });
+            if (visible !== '') {
+              this[visible] = false;
+            }
+          } else this.$message.error(body.message);
+        }).catch(() => {
+          this.$message.error('操作失败');
+        })
+
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
     }
   }
 }

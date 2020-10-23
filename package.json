@@ -9,6 +9,7 @@
     "element-ui": "^2.4.8",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-plugin-vue": "^5.2.2",
+    "jwchat": "^0.2.48",
     "transform-runtime": "0.0.0",
     "vue": "^2.5.17",
     "vue-resource": "^1.5.1",

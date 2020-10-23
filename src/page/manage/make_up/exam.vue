@@ -5,7 +5,7 @@
         :label="label"
         @handleSizeChange="handleSizeChange"
         @handleCurrentChange="handleCurrentChange">
-        <div slot="banner" class="top-right" v-show="is_student===false">
+        <div slot="banner" class="top-right">
           <el-upload
               :limit=1
               :auto-upload="false"
@@ -17,7 +17,6 @@
               :on-error="handleError">
             <el-button type="primary" size="small">点击上传</el-button>
           </el-upload>
-          &nbsp;&nbsp;
           <el-button type="primary" size="small" @click="createInfo" slot="reference">新增</el-button>&nbsp;
         </div>
 
@@ -56,12 +55,10 @@
               </template>
             </el-table-column>
 
-
-
         </el-table>
       </div>
     </lyz-layout>
-    <el-dialog :title="'添加补考信息'" :visible.sync="messageVisible" width="33%" center
+    <el-dialog :title="'添加考试信息'" :visible.sync="messageVisible" width="33%" center
                class="user-dialog">
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>
@@ -70,38 +67,8 @@
           <el-input v-model="messageForm.exam_id" placeholder="请输入考试ID"></el-input>
         </el-form-item>
 
-        <el-form-item label="学科" prop="classes">
-          <el-input v-model="messageForm.classes" placeholder="请输入学科名称"></el-input>
-        </el-form-item>
-
-        <el-form-item label="学生ID" prop="student_id">
-          <el-input v-model="messageForm.student_id" placeholder="请输入学生ID"></el-input>
-        </el-form-item>
-
-        <el-form-item label="考试要求" prop="req">
-          <el-input v-model="messageForm.req" placeholder="请输入考试要求"></el-input>
-        </el-form-item>
-
-        <el-form-item label="开始时间" prop="stime">
-          <el-date-picker
-              v-model="messageForm.stime"
-              type="datetime"
-              format="yyyy-MM-dd HH:mm"
-              placeholder="选择开始时间"
-              align="right"
-              :picker-options="pickerOptions">
-          </el-date-picker>
-        </el-form-item>
-
-        <el-form-item label="结束时间" prop="etime">
-          <el-date-picker
-              v-model="messageForm.etime"
-              type="datetime"
-              format="yyyy-MM-dd HH:mm"
-              placeholder="选择结束时间"
-              align="right"
-              :picker-options="pickerOptions">
-          </el-date-picker>
+        <el-form-item label="学生ID" prop="teacher_id">
+          <el-input v-model="messageForm.teacher_id" placeholder="请输入考试ID"></el-input>
         </el-form-item>
 
       </el-form>
@@ -118,40 +85,13 @@
 
 <script>
 
-function dateFormat(fmt, date) {
-  let ret;
-  const opt = {
-    "Y+": date.getFullYear().toString(),        // 年
-    "m+": (date.getMonth() + 1).toString(),     // 月
-    "d+": date.getDate().toString(),            // 日
-    "H+": date.getHours().toString(),           // 时
-    "M+": date.getMinutes().toString(),         // 分
-    "S+": date.getSeconds().toString()          // 秒
-    // 有其他格式化字符需求可以继续添加，必须转化成字符串
-  };
-  for (let k in opt) {
-    ret = new RegExp("(" + k + ")").exec(fmt);
-    if (ret) {
-      fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-    }
-
-  }
-
-  return fmt;
-}
-
-function convertData(ms) {
-  let date = new Date(ms);
-  return dateFormat("YYYY-mm-dd HH:MM", date);
-}
-
 import lyzLayout from '@/components/lyzLayout';
 import manage from '../manage.component';
 import {responseText} from '../../../config/utils.js';
 
 
 export default {
-  name: "info",
+  name: "exam",
   data() {
     return {
       limitNum: 1,  // 上传excell时，同时允许上传的最大数
@@ -162,8 +102,9 @@ export default {
         pageSize: 10,
         total: 0,
       },
-      label: '补考信息管理',
+      label: '补考老师对应信息管理',
       messageForm: {},
+      visible:"",
       messageVisible: false,
       messageLabelWidth: '90px',
       isModify: false,
@@ -171,23 +112,10 @@ export default {
         exam_id: [
           {required: true, message: '请输入考试ID', trigger: 'blur'}
         ],
-        classes: [
-          {required: true, message: '请输入科目', trigger: 'blur'}
+        teacher_id: [
+          {required: true, message: '请输入老师ID', trigger: 'blur'}
         ],
-        student_id: [
-          {required: true, message: '请输入学生ID', trigger: 'blur'}
-        ],
-        req: [
-          {required: true, message: '请输入考试要求', trigger: 'blur'}
-        ],
-        stime: [
-          {required: true, message: '请输入开始时间', trigger: 'blur'}
-        ],
-        etime: [
-          {required: true, message: '请输入结束时间', trigger: 'blur'}
-        ]
       },
-      is_student: false,
       multipleSelection: [],//多选的数据
       pickerOptions: {},
       tableData: [],
@@ -206,35 +134,11 @@ export default {
           align: 'center',
         },
         {
-          prop: 'classes',
-          label: '科目',
+          prop: 'teacherId',
+          label: '老师ID',
           'min-width': 60,
           align: 'center',
-        },
-        {
-          prop: 'studentId',
-          label: '学生ID',
-          'min-width': 60,
-          align: 'center',
-        },
-        {
-          prop: 'req',
-          label: '要求',
-          'min-width': 120,
-          align: 'center',
-        },
-        {
-          prop: 'stime',
-          label: '开始时间',
-          'min-width': 120,
-          align: 'center',
-        },
-        {
-          prop: 'etime',
-          label: '结束时间',
-          'min-width': 120,
-          align: 'center',
-        },
+        }
       ]
     };
   },
@@ -250,42 +154,18 @@ export default {
     //   this.pagination.pageIndex = 1;
     //   this.queryList();
     // }, 1000));
-    this.changeStatus();
   },
   methods: {
-    changeStatus(){
-      if(localStorage.type==='student'){
-        this.is_student = true;
-      }
-    },
     queryList() {
       this.loginLoading = true;
-      let params = null;
-      if (localStorage.type === "student"){
-        params = {
+      let params = {
           page: this.pagination.pageIndex,
           pageCount: this.pagination.pageSize,
-          type: localStorage.type,
-          id:localStorage.id
         };
-      }else{
-        params = {
-          page: this.pagination.pageIndex,
-          pageCount: this.pagination.pageSize,
-          type: localStorage.type,
-          id:localStorage.id
-        };
-      }
-      this.$http.get('http://localhost:8080/makeup-exam/', {params: params}).then(({body}) => {
+
+      this.$http.get('http://localhost:8080/exam/', {params: params}).then(({body}) => {
         if (body.success === true) {
-          responseText(body.data.records).forEach((item) => {
-            if (item.stime != null) {
-              item.stime = convertData(item.stime);
-            }
-            if (item.etime != null) {
-              item.etime = convertData(item.etime);
-            }
-          })
+          responseText(body.data.records);
           this.tableData = responseText(body.data.records);
           this.pagination.total = body.data.records ? body.data.total : 0;
         } else {
@@ -332,45 +212,37 @@ export default {
         }
       };
 
-      this.$http.post('http://localhost:8080/user/upload_make_up', form, config).then(function (res) {
+      this.$http.post('http://localhost:8080/user/upload_exam', form, config).then(function (res) {
         if (res.status === 200) {
           if (res.body) {
             this.$message.success("导入成功");
             this.queryList();
+            if (this.visible !== '') {
+              this[this.visible] = false;
+            }
           } else {
             this.$message.error("格式错误");
           }
-          if (visible !== '') {
-            this[visible] = false;
-          }
+
         }
-      }).catch((error) => {
-        this.$message.error("导入失败");
-      });
+      })
     },
 
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     deleteInfo(id) {
-      if (this.is_student)
-        return;
-      this.delete('/makeup-exam/' + id);
+      this.delete('/exam/' + id);
     },
     modifyInfo(id) {
-      if (this.is_student)
-        return;
       this.isModify = true;
-      this.$http.get('http://localhost:8080/makeup-exam/' + id).then(({body}) => {
+      this.$http.get('http://localhost:8080/exam/' + id).then(({body}) => {
+        console.log(body.data);
         if (body.success === true) {
           let params = {
             'id': id,
             'examId': body.data.examId,
-            'classes': body.data.classes,
-            'studentId': body.data.studentId,
-            'req': body.data.req,
-            'stime': convertData(body.data.stime),
-            'etime': convertData(body.data.etime)
+            'teacherId': body.data.teacherId,
           };
 
           this.messageVisible = true;
@@ -378,11 +250,7 @@ export default {
 
           _form.id = params.id;
           _form.exam_id = params.examId;
-          _form.classes = params.classes;
-          _form.student_id = params.studentId;
-          _form.req = params.req;
-          _form.stime = params.stime;
-          _form.etime = params.etime;
+          _form.teacher_id = params.teacherId;
           this.messageForm = _form;
           if (visible !== '') {
             this[visible] = false;
@@ -396,8 +264,6 @@ export default {
       })
     },
     createInfo(row) {
-      if (localStorage.type === "student")
-        return;
       this.isModify = false;
       this.messageVisible = true;
       let _form = Object.assign({}, row);
@@ -405,31 +271,23 @@ export default {
     },
     saveInfo() {
       let params = {
-        'id': null,
+        'id': this.messageForm.id,
         'examId': this.messageForm.exam_id,
-        'classes': this.messageForm.classes,
-        'studentId': this.messageForm.student_id,
-        'req': this.messageForm.req,
-        'stime': this.messageForm.stime,
-        'etime': this.messageForm.etime,
+        'teacherId': this.messageForm.teacher_id,
       };
       console.log(params);
 
-      this.save('/makeup-exam/', params, "",'messageVisible');
+      this.save('/exam/', params, "",'messageVisible');
     },
     updateInfo() {
       console.log('updateInfo');
       let params = {
         'id': this.messageForm.id,
         'examId': this.messageForm.exam_id,
-        'classes': this.messageForm.classes,
-        'studentId': this.messageForm.student_id,
-        'req': this.messageForm.req,
-        'stime': new Date(this.messageForm.stime),
-        'etime': new Date(this.messageForm.etime),
+        'teacherId': this.messageForm.teacher_id,
       };
       console.log(params);
-      this.update('/makeup-exam/', params,"", 'messageVisible');
+      this.update('/exam/', params,"", 'messageVisible');
     }
   }
 

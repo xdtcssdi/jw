@@ -11,16 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5def57c-94d8-443e-a06a-5ae998ad22e4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/page/manage/assignment/assignment.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/page/manage/message/address.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/page/manage/make_up/exam.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/lyzSideNav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lyzSideNav.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/page/base/login/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/base/login/login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/manage/assignment/assignment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/manage/assignment/assignment.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/page/manage/make_up/info.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/manage/make_up/info.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/page/manage/make_up/student.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/manage/make_up/student.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/page/manage/manage.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/manage/manage.component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/page/manage/message/message.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/manage/make_up/teacher.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/manage/make_up/teacher.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +39,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/page/manage/message" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/page/manage/make_up" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -51,9 +50,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/page/manage/make_up" />
       <recent name="$PROJECT_DIR$/src/page/manage/message" />
       <recent name="$PROJECT_DIR$/src/page/manage/assignment" />
-      <recent name="$PROJECT_DIR$/src/page/manage/make_up" />
     </key>
   </component>
   <component name="RunManager">
@@ -86,7 +85,8 @@
       <workItem from="1603070837379" duration="773000" />
       <workItem from="1603191421264" duration="1094000" />
       <workItem from="1603337911524" duration="12816000" />
-      <workItem from="1603413631405" duration="4558000" />
+      <workItem from="1603413631405" duration="7510000" />
+      <workItem from="1603436915431" duration="5130000" />
     </task>
     <servers />
   </component>
@@ -114,25 +114,25 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="358" y="209" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800@0.0.1280.800" timestamp="1603071050720" />
-    <state width="1259" height="216" key="GridCell.Tab.0.bottom" timestamp="1603420089945">
+    <state width="1259" height="245" key="GridCell.Tab.0.bottom" timestamp="1603444106333">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="216" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1603420089945" />
+    <state width="1259" height="245" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1603444106333" />
     <state width="1259" height="212" key="GridCell.Tab.0.bottom/0.23.1280.722@0.23.1280.722" timestamp="1602774381414" />
-    <state width="1259" height="216" key="GridCell.Tab.0.center" timestamp="1603420089944">
+    <state width="1259" height="245" key="GridCell.Tab.0.center" timestamp="1603444106331">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="216" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1603420089944" />
+    <state width="1259" height="245" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1603444106331" />
     <state width="1259" height="212" key="GridCell.Tab.0.center/0.23.1280.722@0.23.1280.722" timestamp="1602774381413" />
-    <state width="1259" height="216" key="GridCell.Tab.0.left" timestamp="1603420089943">
+    <state width="1259" height="245" key="GridCell.Tab.0.left" timestamp="1603444106330">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="216" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1603420089943" />
+    <state width="1259" height="245" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1603444106330" />
     <state width="1259" height="212" key="GridCell.Tab.0.left/0.23.1280.722@0.23.1280.722" timestamp="1602774381413" />
-    <state width="1259" height="216" key="GridCell.Tab.0.right" timestamp="1603420089944">
+    <state width="1259" height="245" key="GridCell.Tab.0.right" timestamp="1603444106332">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="216" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1603420089944" />
+    <state width="1259" height="245" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1603444106332" />
     <state width="1259" height="212" key="GridCell.Tab.0.right/0.23.1280.722@0.23.1280.722" timestamp="1602774381414" />
     <state x="141" y="39" key="SettingsEditor" timestamp="1603070496200">
       <screen x="0" y="0" width="1280" height="800" />

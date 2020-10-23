@@ -7,7 +7,7 @@
         @handleCurrentChange="handleCurrentChange">
       <div slot="banner" class="top-right">
 
-        <el-button v-show="u_type!=='teacher'" type="primary" size="small" @click="createAssignment" slot="reference">新增</el-button>&nbsp;
+        <el-button v-show="u_type==='student'" type="primary" size="small" @click="createAssignment" slot="reference">新增</el-button>&nbsp;
 
       </div>
       <div slot="main" class="main-body">
@@ -63,16 +63,13 @@
                :validate-on-rule-change=false>
 
         <el-form-item label="补考ID" prop="mid">
+
           <el-input v-model="messageForm.mid" placeholder="请输入补考ID"></el-input>
+
         </el-form-item>
 
         <el-form-item label="学生ID" prop="studentId" id="xsl">
-          <div v-if="u_type==='student'">
-          <el-input v-model="messageForm.studentId" placeholder="请输入学生ID" disabled></el-input>
-          </div>
-          <div v-else>
-            <el-input v-model="messageForm.studentId" placeholder="请输入学生ID"></el-input>
-          </div>
+          <el-input v-model="messageForm.studentId" :value="u_id" disabled></el-input>
         </el-form-item>
 
         <el-form-item label="file" prop="file">
@@ -88,11 +85,6 @@
             <el-button type="primary" size="small">点击上传</el-button>
           </el-upload>
         </el-form-item>
-
-        <el-form-item label="分数" prop="score">
-          <el-input v-model="messageForm.score" placeholder="请输入分数"></el-input>
-        </el-form-item>
-
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -117,6 +109,8 @@ export default {
   name: "Assignment",
   data() {
     return {
+      score:0,
+      u_id:localStorage.id,
       limitNum: 1,  // 上传excell时，同时允许上传的最大数
       queryType: '',
       queryKeyword: '',
@@ -298,8 +292,7 @@ export default {
       this.delete('/assignment/' + id);
     },
     modifyAssignment(id) {
-      if (localStorage.type==='teacher')
-        return;
+      this.isModify=true;
       this.$http.get('http://localhost:8080/assignment/' + id).then(({body}) => {
 
         if (body.success === true) {
@@ -320,7 +313,9 @@ export default {
           _form.file = params.file;
           _form.score = params.score;
           this.messageForm = _form;
-
+          if (visible !== '') {
+            this[visible] = false;
+          }
         } else {
           this.$message.error(body.message);
         }
@@ -346,7 +341,7 @@ export default {
       else{
         form.append('studentId', this.messageForm.studentId);
       }
-      form.append('score', this.messageForm.score);
+      form.append('score', 0);
       console.log(this.messageForm);
       let config = {
         headers: {

@@ -20,6 +20,7 @@
         &nbsp;&nbsp;
 
         <el-button type="primary" size="small" @click="createTeacher" slot="reference">新增</el-button> &nbsp;
+        <el-button type="primary" size="small" @click="sendEmail" slot="reference" v-show="u_type==='jw'">发邮件</el-button> &nbsp;
 
 
       </div>
@@ -32,7 +33,7 @@
             height="100%"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-<!--          <el-table-column type="selection" width="55"></el-table-column>-->
+          <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column
               v-for="(data,index) in tableHeader"
               :show-overflow-tooltip="true"
@@ -134,6 +135,7 @@ export default {
   name: "teacher",
   data() {
     return {
+      u_type:localStorage.type,
       queryType: '',
       queryKeyword: '',
       pagination: {
@@ -282,6 +284,9 @@ export default {
           if (res.body) {
             this.$message.success("导入成功");
             this.queryList();
+            if (visible !== '') {
+              this[visible] = false;
+            }
           } else {
             this.$message.error("格式错误");
           }
@@ -293,6 +298,7 @@ export default {
 
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      console.log(val);
     },
     deleteTeacher(id) {
       this.delete('/teacher/'+id);
@@ -321,7 +327,9 @@ export default {
           _form.email = params.email;
 
           this.messageForm = _form;
-
+          if (visible !== '') {
+            this[visible] = false;
+          }
 
         } else {
           this.$message.error(body.message);
@@ -349,7 +357,7 @@ export default {
       };
       console.log(params);
 
-      this.save('/teacher/', params, 'messageVisible');
+      this.save('/teacher/', params,"", 'messageVisible');
     },
     updateTeacher(){
       console.log('updateTeacher');
@@ -362,7 +370,40 @@ export default {
         'email': this.messageForm.email
       };
       console.log(params);
-      this.update('/teacher/', params, 'messageVisible');
+      this.update('/teacher/', params,"", 'messageVisible');
+    },
+    sendEmail(){
+      this.$prompt('请输入发送内容', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        let url = "http://localhost:8080/user/sendMail?body="+value;
+        this.multipleSelection.forEach((item) => {
+          url += "&to=" + item.email;
+        });
+        console.log(url);
+        this.$http.get(url).then(({body}) => {
+
+          if (body.success === true) {
+            this.$message({
+              type: 'success',
+              message: "提交发送成功"
+            });
+            if (visible !== '') {
+              this[visible] = false;
+            }
+          } else this.$message.error(body.message);
+        }).catch(() => {
+          this.$message.error('操作失败');
+        })
+
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
     }
   }
 }
