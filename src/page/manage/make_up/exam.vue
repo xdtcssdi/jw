@@ -67,8 +67,8 @@
           <el-input v-model="messageForm.exam_id" placeholder="请输入考试ID"></el-input>
         </el-form-item>
 
-        <el-form-item label="学生ID" prop="teacher_id">
-          <el-input v-model="messageForm.teacher_id" placeholder="请输入考试ID"></el-input>
+        <el-form-item label="老师ID" prop="teacher_id">
+          <el-input v-model="messageForm.teacher_id" placeholder="请输入老师ID"></el-input>
         </el-form-item>
 
       </el-form>

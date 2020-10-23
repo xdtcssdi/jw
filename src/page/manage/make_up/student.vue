@@ -66,7 +66,7 @@
       </div>
 
     </lyz-layout>
-    <el-dialog :title="'添加补考信息'" :visible.sync="messageVisible" width="33%" center
+    <el-dialog :title="'学生信息'" :visible.sync="messageVisible" width="33%" center
                class="user-dialog">
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>

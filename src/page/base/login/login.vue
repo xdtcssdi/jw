@@ -1,7 +1,7 @@
 <template>
   <div class="wrap" id="app2">
     <div class="loginBox">
-      <h3>欢迎来到。。。</h3>
+      <h3>Welcome make-up exam system </h3>
       <el-form ref="loginForm" :model="loginForm" class="login-form" :rules="rules" label-width="80px"
                label-position="left">
         <el-form-item label="用户名" prop="name">
@@ -77,11 +77,9 @@ export default {
         if (valid) {
           this.$http.get(url, {}).then(({body}) => {
             if (body.success === true) {
-
-              localStorage.username = body.data.username;
+              localStorage.username =this.loginForm.name;
               localStorage.type = this.loginForm.type;
               localStorage.id = body.data.id;
-
               window.location.href = "/make_up";
             } else {
               this.$message.error(body.message);

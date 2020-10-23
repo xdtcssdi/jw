@@ -57,7 +57,7 @@
       </div>
 
     </lyz-layout>
-    <el-dialog :title="'添加作业信息'" :visible.sync="messageVisible" width="33%" center
+    <el-dialog  :title="'作业信息'" :visible.sync="messageVisible" width="33%" center
                class="user-dialog">
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>
@@ -71,6 +71,10 @@
         <el-form-item label="学生ID" prop="studentId" id="xsl">
           <el-input v-model="messageForm.studentId" :value="u_id" disabled></el-input>
         </el-form-item>
+        <el-form-item v-show="u_type!='student'" label="分数" prop="score">
+          <el-input-number  v-model="messageForm.score" controls-position="right"></el-input-number>
+        </el-form-item>
+   
 
         <el-form-item label="file" prop="file">
           <el-upload
