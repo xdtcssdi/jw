@@ -80,7 +80,7 @@
           <el-upload
               :limit=1
               :auto-upload="false"
-              accept=".xlsx"
+              accept="*"
               :action="UploadUrl()"
               :on-change="fileChange"
               :before-upload="beforeUploadFile"
