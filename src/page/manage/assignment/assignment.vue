@@ -58,37 +58,23 @@
                 @click="modifyAssignment(scope.row.id)"
                 >修改
               </el-button>
-              <el-button
-                type="text"
-                size="mini"
-                class="danger-text"
-                @click="deleteAssignment(scope.row.id)"
-                >删除
+              <el-button type="text" size="mini" class="danger-text" v-show="u_type!=='student'"
+                         @click="deleteAssignment(scope.row.id)">删除
               </el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
     </lyz-layout>
-    <el-dialog
-      :title="'作业信息'"
-      :visible.sync="messageVisible"
-      width="33%"
-      center
-      class="user-dialog"
-    >
-      <el-form
-        :model="messageForm"
-        :label-width="messageLabelWidth"
-        ref="messageForm"
-        :rules="messageRule"
-        :validate-on-rule-change="false"
-      >
-        <el-form-item label="补考ID" prop="mid">
-          <el-input
-            v-model="messageForm.mid"
-            placeholder="请输入补考ID"
-          ></el-input>
+    <el-dialog  :title="'作业信息'" :visible.sync="messageVisible" width="33%" center
+               class="user-dialog">
+      <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
+               :validate-on-rule-change=false>
+
+        <el-form-item label="考试ID" prop="mid">
+
+          <el-input v-model="messageForm.mid" placeholder="请输入考试ID"></el-input>
+
         </el-form-item>
 
         <el-form-item label="学生ID" prop="studentId" id="xsl">
@@ -160,7 +146,9 @@ export default {
       messageLabelWidth: "90px",
       isModify: false,
       messageRule: {
-        mid: [{ required: true, message: "请输入补考ID", trigger: "blur" }],
+        mid: [
+          {required: true, message: '请输入考试ID', trigger: 'blur'}
+        ],
         studentId: [
           { required: true, message: "请输入学生ID", trigger: "blur" },
         ],
