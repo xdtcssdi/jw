@@ -161,7 +161,7 @@ export default {
         pageIndex: 1,
         pageSize: 10,
         total: 0,
-      },
+      },visible:'',
       label: '补考信息管理',
       messageForm: {},
       messageVisible: false,
@@ -340,11 +340,9 @@ export default {
           } else {
             this.$message.error("格式错误");
           }
-          if (visible !== '') {
-            this[visible] = false;
-          }
         }
       }).catch((error) => {
+        console.log(error);
         this.$message.error("导入失败");
       });
     },
