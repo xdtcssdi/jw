@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-10-23 20:51:42
- * @LastEditTime: 2020-10-30 18:24:32
+ * @LastEditTime: 2020-10-30 18:29:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /jw/src/components/lyzHeader.vue
@@ -29,7 +29,7 @@
         </el-dropdown>
       </div>
     </div>
-    
+    <!-- TODO:Fix this dialog bug -->
     <!-- <el-dialog
       title="用户信息"
       :visible.sync="userinfoVisible"
