@@ -54,6 +54,7 @@
               {'path':'/make_up', 'name':'补考信息管理','icon':'el-icon-menu'},
               {'path':'/student', 'name':'补考学生信息管理','icon':'el-icon-menu'},
               {'path':'/teacher', 'name':'监考老师信息管理','icon':'el-icon-menu'},
+              {'path':'/assignment', 'name':'作业信息管理','icon':'el-icon-menu'},
               {'path':'/exam', 'name':'考试信息管理','icon':'el-icon-menu'},
             ];
 

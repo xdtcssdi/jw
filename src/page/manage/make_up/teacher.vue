@@ -284,6 +284,9 @@ export default {
           if (res.body) {
             this.$message.success("导入成功");
             this.queryList();
+            if (visible !== '') {
+              this[visible] = false;
+            }
           } else {
             this.$message.error("格式错误");
           }
@@ -386,6 +389,9 @@ export default {
               type: 'success',
               message: "提交发送成功"
             });
+            if (visible !== '') {
+              this[visible] = false;
+            }
           } else this.$message.error(body.message);
         }).catch(() => {
           this.$message.error('操作失败');

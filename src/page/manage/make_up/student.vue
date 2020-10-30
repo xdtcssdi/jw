@@ -48,7 +48,20 @@
               :align="data.align"
           >
           </el-table-column>
-
+          <el-table-column
+              fixed="right"
+              label="操作"
+              align="center"
+              min-width="120">
+            <template slot-scope="scope">
+              <el-button type="text" size="mini" class="el-button--info"
+                         @click="modifyStudent(scope.row.id)">修改
+              </el-button>
+              <el-button type="text" size="mini" class="danger-text"
+                         @click="deleteStudent(scope.row.id)">删除
+              </el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
@@ -359,6 +372,9 @@ export default {
               type: 'success',
               message: "提交发送成功"
             });
+            if (visible !== '') {
+              this[visible] = false;
+            }
           } else this.$message.error(body.message);
         }).catch(() => {
           this.$message.error('操作失败');
