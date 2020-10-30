@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-10-23 20:51:42
- * @LastEditTime: 2020-10-30 18:29:55
+ * @LastEditTime: 2020-10-30 22:48:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /jw/src/components/lyzHeader.vue
@@ -21,7 +21,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
               command="detailMessage"
-              @click="dialogFormVisible = true"
+              @click.native="getUserInfo"
               >详细信息</el-dropdown-item
             >
             <el-dropdown-item command="logout">退出</el-dropdown-item>
@@ -29,8 +29,8 @@
         </el-dropdown>
       </div>
     </div>
-    <!-- TODO:Fix this dialog bug -->
-    <!-- <el-dialog
+
+    <el-dialog
       title="用户信息"
       :visible.sync="userinfoVisible"
       width="33%"
@@ -41,24 +41,21 @@
         :model="userinfoFrom"
         :label-width="userinfoLabelWidth"
         ref="userinfoFrom"
-        :rules="userinfoRule"
         :validate-on-rule-change="false"
       >
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="userinfoform.username"></el-input>
+          <el-input v-model="username" type="text"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="userinfoform.password" type="password"></el-input>
+          <el-input v-model="password" type="password"></el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="updateuserinfo">更 新</el-button>
         <el-button @click="userinfoVisible = false">取 消</el-button>
-        <el-button type="primary" @click="userinfoVisible = false"
-          >更 新</el-button
-        >
       </div>
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -71,6 +68,12 @@ export default {
   name: "lyzHeader",
   data() {
     return {
+      userinfoFrom: { username: "", password: "" },
+      userinfoVisible: false,
+      userinfoLabelWidth: "90px",
+      username: "",
+      password: "",
+      type: "",
       loginUserName: localStorage.username,
     };
   },
@@ -79,7 +82,38 @@ export default {
   },
   computed: mapState(["collapse"]),
   methods: {
-    getUserInfo() {},
+    updateuserinfo() {
+      // let form = new FormData();
+      // form.append("username", this.username);
+      // from.append("password", this.password);
+      // from.append("type", this.type);
+      // let config = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // };
+      // this.update("/user/", form, config, "userinfoVisible");
+    },
+    getUserInfo() {
+      this.username = localStorage.username;
+      this.type = localStorage.type;
+      this.$http
+        .get(
+          "http://localhost:8080/user/userinfo?" +
+            "username=" +
+            this.username +
+            "&type=" +
+            this.type
+        )
+        .then(({ body }) => {
+          if (body.success === true) {
+            this.userinfoVisible = true;
+            this.password = body.data.password;
+            console.log("aaaaaa");
+          }
+        })
+        .finally(() => {});
+    },
     getCurrentUser() {
       if (localStorage.username) {
         this.loginUserName = localStorage.username;
