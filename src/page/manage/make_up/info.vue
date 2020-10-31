@@ -340,9 +340,6 @@ export default {
           } else {
             this.$message.error("格式错误");
           }
-          if (visible !== '') {
-            this[visible] = false;
-          }
         }
       }).catch((error) => {
         this.$message.error("导入失败");
@@ -384,9 +381,6 @@ export default {
           _form.stime = params.stime;
           _form.etime = params.etime;
           this.messageForm = _form;
-          if (visible !== '') {
-            this[visible] = false;
-          }
 
         } else {
           this.$message.error(body.message);

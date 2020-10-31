@@ -217,9 +217,6 @@ export default {
           if (res.body) {
             this.$message.success("导入成功");
             this.queryList();
-            if (this.visible !== '') {
-              this[this.visible] = false;
-            }
           } else {
             this.$message.error("格式错误");
           }
@@ -252,10 +249,6 @@ export default {
           _form.exam_id = params.examId;
           _form.teacher_id = params.teacherId;
           this.messageForm = _form;
-          if (visible !== '') {
-            this[visible] = false;
-          }
-
         } else {
           this.$message.error(body.message);
         }

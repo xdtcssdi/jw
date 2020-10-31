@@ -332,9 +332,6 @@ export default {
             _form.file = params.file;
             _form.score = params.score;
             this.messageForm = _form;
-            if (visible !== "") {
-              this[visible] = false;
-            }
           } else {
             this.$message.error(body.message);
           }

@@ -311,10 +311,6 @@ export default {
           _form.email = params.email;
 
           this.messageForm = _form;
-          if (visible !== '') {
-            this[visible] = false;
-          }
-
         } else {
           this.$message.error(body.message);
         }
@@ -372,9 +368,6 @@ export default {
               type: 'success',
               message: "提交发送成功"
             });
-            if (visible !== '') {
-              this[visible] = false;
-            }
           } else this.$message.error(body.message);
         }).catch(() => {
           this.$message.error('操作失败');
