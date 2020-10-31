@@ -284,9 +284,6 @@ export default {
           if (res.body) {
             this.$message.success("导入成功");
             this.queryList();
-            if (visible !== '') {
-              this[visible] = false;
-            }
           } else {
             this.$message.error("格式错误");
           }
