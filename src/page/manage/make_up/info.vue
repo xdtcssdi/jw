@@ -5,60 +5,86 @@
         :label="label"
         @handleSizeChange="handleSizeChange"
         @handleCurrentChange="handleCurrentChange">
-        <div slot="banner" class="top-right" v-show="is_student===false">
-          <el-upload
-              :limit=1
-              :auto-upload="false"
-              accept=".xlsx"
-              :action="UploadUrl()"
-              :on-change="fileChange"
-              :before-upload="beforeUploadFile"
-              :on-success="handleSuccess"
-              :on-error="handleError">
-            <el-button type="primary" size="small">点击上传</el-button>
-          </el-upload>
-          &nbsp;&nbsp;
-          <el-button type="primary" size="small" @click="createInfo" slot="reference">新增</el-button>&nbsp;
-        </div>
+      <div slot="banner" class="top-right" v-show="is_student===false">
+        <el-upload
+            :limit=1
+            :auto-upload="false"
+            accept=".xlsx"
+            :action="UploadUrl()"
+            :on-change="fileChange"
+            :before-upload="beforeUploadFile"
+            :on-success="handleSuccess"
+            :on-error="handleError">
+          <el-button type="primary" size="small">点击上传</el-button>
+        </el-upload>
+        &nbsp;&nbsp;
+        <el-button type="primary" size="small" @click="createInfo" slot="reference">新增</el-button>&nbsp;
+      </div>
 
       <div slot="main" class="main-body">
-        <el-table
-            :data="tableData"
-            stripe
-            v-loading="loginLoading"
-            tooltip-effect="light"
-            height="100%"
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-          <!--          <el-table-column type="selection" width="55"></el-table-column>-->
-          <el-table-column
-              v-for="(data,index) in tableHeader"
-              :show-overflow-tooltip="true"
-              :key="index"
-              :prop="data.prop"
-              :label="data.label"
-              :min-width="data['min-width']"
-              :align="data.align">
-          </el-table-column>
 
-            <el-table-column
-                fixed="right"
-                label="操作"
-                align="center"
-                min-width="120">
-              <template slot-scope="scope">
-                <el-button type="text" size="mini" class="el-button--info"
-                           @click="modifyInfo(scope.row.id)">修改
-                </el-button>
-                <el-button type="text" size="mini" class="danger-text"
-                           @click="deleteInfo(scope.row.id)">删除
-                </el-button>
-              </template>
-            </el-table-column>
+        <div>
+          <el-row>
+            <el-col :span="4" v-for="(item) in tableData" :key="item.examId" :offset="1">
+              <div style="margin-top:15px">
+                <el-card :body-style="{ padding: '0px', alignment: 'center'}" shadow="hover">
+                  <img style="alignment: center;vertical-align: center;height: 100px; width: 100px"
+                       src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604572154625&di=4c4b5f14ccaa846a108215f39e9cc4c5&imgtype=0&src=http%3A%2F%2Fedu_img.bs2.100.com%2F723f5d12785e6f3243782b0.jpg"
+                       class="image">
+                  <div>
+                    <span>{{ item.classes }}: {{item.tusername}}<br>要求： {{ item.req }} <br> </span><br>
+                    <div class="bottom clearfix;" style="font-size: 10px">
+                      <time class="time"><strong>开始时间:</strong><br> {{ item.stime }}</time>
+                      <br>
+                      <el-button type="text" size="mini" class="el-button--info" v-show="userType!=='student'"
+                                 @click="modifyInfo(item.id)">修改
+                      </el-button>
+                      <el-button type="text" size="mini" class="danger-text" v-show="userType!=='student'"
+                                 @click="deleteInfo(item.id)">删除
+                      </el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </div>
+            </el-col>
+          </el-row>
 
+        </div>
+        <!--        <el-table-->
+        <!--            :data="tableData"-->
+        <!--            stripe-->
+        <!--            v-loading="loginLoading"-->
+        <!--            tooltip-effect="light"-->
+        <!--            height="100%"-->
+        <!--            style="width: 100%"-->
+        <!--            @selection-change="handleSelectionChange">-->
+        <!--          &lt;!&ndash;          <el-table-column type="selection" width="55"></el-table-column>&ndash;&gt;-->
+        <!--          <el-table-column-->
+        <!--              v-for="(data,index) in tableHeader"-->
+        <!--              :show-overflow-tooltip="true"-->
+        <!--              :key="index"-->
+        <!--              :prop="data.prop"-->
+        <!--              :label="data.label"-->
+        <!--              :min-width="data['min-width']"-->
+        <!--              :align="data.align">-->
+        <!--          </el-table-column>-->
 
+        <!--          <el-table-column-->
+        <!--              fixed="right"-->
+        <!--              label="操作"-->
+        <!--              align="center"-->
+        <!--              min-width="120">-->
+        <!--            <template slot-scope="scope">-->
+        <!--              <el-button type="text" size="mini" class="el-button&#45;&#45;info"-->
+        <!--                         @click="modifyInfo(scope.row.id)">修改-->
+        <!--              </el-button>-->
+        <!--              <el-button type="text" size="mini" class="danger-text"-->
+        <!--                         @click="deleteInfo(scope.row.id)">删除-->
+        <!--              </el-button>-->
+        <!--            </template>-->
+        <!--          </el-table-column>-->
+        <!--        </el-table>-->
 
-        </el-table>
       </div>
     </lyz-layout>
     <el-dialog :title="'补考信息'" :visible.sync="messageVisible" width="33%" center
@@ -162,6 +188,7 @@ export default {
         pageSize: 10,
         total: 0,
       },
+      userType: localStorage.type,
       label: '补考信息管理',
       messageForm: {},
       messageVisible: false,
@@ -253,27 +280,27 @@ export default {
     this.changeStatus();
   },
   methods: {
-    changeStatus(){
-      if(localStorage.type==='student'){
+    changeStatus() {
+      if (localStorage.type === 'student') {
         this.is_student = true;
       }
     },
     queryList() {
       this.loginLoading = true;
       let params = null;
-      if (localStorage.type === "student"){
+      if (localStorage.type === "student") {
         params = {
           page: this.pagination.pageIndex,
           pageCount: this.pagination.pageSize,
           type: localStorage.type,
-          id:localStorage.id
+          id: localStorage.id
         };
-      }else{
+      } else {
         params = {
           page: this.pagination.pageIndex,
           pageCount: this.pagination.pageSize,
           type: localStorage.type,
-          id:localStorage.id
+          id: localStorage.id
         };
       }
       this.$http.get('http://localhost:8080/makeup-exam/', {params: params}).then(({body}) => {
@@ -287,6 +314,7 @@ export default {
             }
           })
           this.tableData = responseText(body.data.records);
+          console.log(this.tableData);
           this.pagination.total = body.data.records ? body.data.total : 0;
         } else {
           this.$message.error(body.message);
@@ -409,7 +437,7 @@ export default {
       };
       console.log(params);
 
-      this.save('/makeup-exam/', params, "",'messageVisible');
+      this.save('/makeup-exam/', params, "", 'messageVisible');
     },
     updateInfo() {
       console.log('updateInfo');
@@ -423,7 +451,7 @@ export default {
         'etime': new Date(this.messageForm.etime),
       };
       console.log(params);
-      this.update('/makeup-exam/', params,"", 'messageVisible');
+      this.update('/makeup-exam/', params, "", 'messageVisible');
     }
   }
 

@@ -83,16 +83,27 @@ export default {
   computed: mapState(["collapse"]),
   methods: {
     updateuserinfo() {
-      // let form = new FormData();
-      // form.append("username", this.username);
-      // from.append("password", this.password);
-      // from.append("type", this.type);
-      // let config = {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // };
-      // this.update("/user/", form, config, "userinfoVisible");
+      let form = new FormData();
+      form.append("username", localStorage.username);
+      form.append("newpassword", this.password);
+      form.append("newusername", this.username);
+      form.append("type", this.type);
+      this.update("/user/resetinfo", form);
+    },update(url, params) {
+      url = "http://localhost:8080"+ url;
+      this.$http.post(url, params).then(({body}) => {
+        if (body.success === true) {
+          this.file = null;
+          this.$message.success(body.message);
+          localStorage.username = this.username;
+          this.loginUserName = this.username;
+          this.userinfoVisible = false;
+        }
+        else
+          this.$message.error(body.message);
+      }).catch(() => {
+        this.$message.error('操作失败');
+      })
     },
     getUserInfo() {
       this.username = localStorage.username;
@@ -109,7 +120,6 @@ export default {
           if (body.success === true) {
             this.userinfoVisible = true;
             this.password = body.data.password;
-            console.log("aaaaaa");
           }
         })
         .finally(() => {});
@@ -120,21 +130,6 @@ export default {
       } else {
         window.location.href = "/login.html";
       }
-
-      // this.$http.get('/user/current-user',{}).then(({body}) => {
-      //   console.log(body);
-      //   if (body.success === true) {
-      //     var unReadSize = body.data.unReadSize;
-      //     if(unReadSize > 0) {
-      //       this.$message.warning("有未读消息");
-      //       this.loginUserName = body.data.userName +"<span style='color:red'>("+unReadSize+"条未读消息)</span>";
-      //     } else {
-      //       this.loginUserName = body.data.userName;
-      //     }
-      //   } else {
-      //     window.location.href = '/login.html';
-      //   }
-      // });
     },
     modifyCollapse() {
       this.$store.commit("setCollapse", !this.collapse);
@@ -143,7 +138,6 @@ export default {
       if (command === "logout") {
         localStorage.removeItem("username");
         localStorage.removeItem("type");
-        // localStorage.removeItem("id");
         if (!localStorage.username) window.location.href = "/login.html";
       } else if (command === "detailMessage") {
       }
