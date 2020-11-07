@@ -97,14 +97,10 @@ export default {
     this.queryList();
   },
   mounted() {
-    // this.$watch('queryKeyword', debounce(() => {
-    //   this.pagination.pageIndex = 1;
-    //   this.queryList();
-    // }, 1000));
   },
   methods: {
-    openchat(){
-      var tempwindow=window.open('_blank');
+    openchat() {
+      var tempwindow = window.open('_blank');
       tempwindow.location = "http://localhost:8080/websocket/" + localStorage.username;
     },
     queryList() {
@@ -114,11 +110,10 @@ export default {
         page: this.pagination.pageIndex,
         pageCount: this.pagination.pageSize,
         type: localStorage.type,
-        id:localStorage.id
+        id: localStorage.id
       };
 
       this.$http.get('http://localhost:8080/address/', {params: params}).then(({body}) => {
-        console.log(body.data.records);
         if (body.success === true) {
           responseText(body.data.records);
           this.tableData = responseText(body.data.records);

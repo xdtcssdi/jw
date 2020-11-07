@@ -1,19 +1,28 @@
-<!--
- * @Author: your name
- * @Date: 2020-10-23 20:51:42
- * @LastEditTime: 2020-10-30 22:48:44
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /jw/src/components/lyzHeader.vue
--->
+
 <template>
   <div class="maindiv">
     <div class="header-main">
       <div class="header-start" @click="modifyCollapse">
         <img src="../assets/img/navCloseIcon.png" />
       </div>
+      <div v-if="changeHeader() === true">
+
+        <h1 v-html="subjectName" style="margin-top: 20px; color: white">
+
+        </h1>
+
+      </div>
       <div class="header-end">
-        <el-dropdown trigger="click" @command="handleCommand">
+
+        <el-menu class="el-menu-demo" mode="horizontal"  v-show="changeHeader() === true" style="background-color:transparent; ">
+          <el-menu-item index="1" style="color: white"><a href="/make_up">首页</a></el-menu-item>
+          <el-menu-item index="2" style="color: white">资料</el-menu-item>
+          <el-menu-item index="3" style="color: white"><a href="/assignmentInner">作业</a></el-menu-item>
+          <el-menu-item index="4" style="color: white">考试</el-menu-item>
+          <!--          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
+        </el-menu>
+
+        <el-dropdown trigger="click" @command="handleCommand" v-show="changeHeader() !== true">
           <span class="el-dropdown-link">
             <span v-html="loginUserName"></span>
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -68,6 +77,7 @@ export default {
   name: "lyzHeader",
   data() {
     return {
+      subjectName:"课程名字",
       userinfoFrom: { username: "", password: "" },
       userinfoVisible: false,
       userinfoLabelWidth: "90px",
@@ -79,6 +89,10 @@ export default {
   },
   created() {
     this.getCurrentUser();
+  },mounted() {
+    let is_student = this.changeHeader();
+    if (is_student)
+    this.subjectname();
   },
   computed: mapState(["collapse"]),
   methods: {
@@ -105,6 +119,20 @@ export default {
         this.$message.error('操作失败');
       })
     },
+    subjectname() {
+      let query = this.$route.query;
+      let subjectid = query.id;
+
+      this.$http.get("http://localhost:8080/makeup-exam/"+subjectid).then(({body})=>{
+        console.log(body);
+        if (body.success===true){
+          this.subjectName = body.data.classes;
+          console.log(this.subjectName);
+        }
+      });
+
+      return "JaveEE程序设计与实现";
+    },
     getUserInfo() {
       this.username = localStorage.username;
       this.type = localStorage.type;
@@ -130,6 +158,11 @@ export default {
       } else {
         window.location.href = "/login.html";
       }
+    },changeHeader(){
+      let currentPath = this.$route.path;
+      if (currentPath==='/makeupinfo')
+        return true;
+      return false;
     },
     modifyCollapse() {
       this.$store.commit("setCollapse", !this.collapse);
@@ -141,7 +174,7 @@ export default {
         if (!localStorage.username) window.location.href = "/login.html";
       } else if (command === "detailMessage") {
       }
-    },
+    }
   },
 };
 </script>
@@ -167,4 +200,11 @@ export default {
 .el-popper[x-placement^="bottom"] {
   margin-top: 0;
 }
+.el-menu-item:hover {
+  background-color: rgb(182, 193, 207) !important;
+}
+.el-menu-item.is-active {
+  background-color: rgb(182, 193, 207) !important;
+}
+a{text-decoration:none;}
 </style>

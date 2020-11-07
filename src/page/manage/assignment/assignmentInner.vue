@@ -165,8 +165,6 @@ export default {
       score: 0,
       u_id: localStorage.id,
       limitNum: 1, // 上传excell时，同时允许上传的最大数
-      queryType: "",
-      queryKeyword: "",
       pagination: {
         pageIndex: 1,
         pageSize: 10,
@@ -235,10 +233,6 @@ export default {
     this.queryList();
   },
   mounted() {
-    // this.$watch('queryKeyword', debounce(() => {
-    //   this.pagination.pageIndex = 1;
-    //   this.queryList();
-    // }, 1000));
   },
   methods: {
     queryList() {
@@ -249,7 +243,7 @@ export default {
           page: this.pagination.pageIndex,
           pageCount: this.pagination.pageSize,
           type: localStorage.type,
-          id: localStorage.id,
+          id: localStorage.getItem("makeupid"),
         };
       } else {
         params = {
@@ -259,7 +253,7 @@ export default {
           id: localStorage.id,
         };
       }
-
+      console.log(params);
       this.$http
           .get("http://localhost:8080/assignment", {params: params})
           .then(({body}) => {
@@ -307,10 +301,6 @@ export default {
       this.file = file.raw;
       //this.uploadFile(file.raw);
     },
-    download(id) {
-      console.log(id);
-      window.location.href = "http://localhost:8080/down?id=" + id;
-    },
     uploadFile(file) {
       let form = new FormData();
       form.append("file", file);
@@ -334,7 +324,10 @@ export default {
       //   this.$message.error("导入失败");
       // });
     },
-
+    download(id) {
+      console.log(id);
+      window.location.href = "http://localhost:8080/down?id=" + id;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

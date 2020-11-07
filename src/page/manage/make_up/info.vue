@@ -30,11 +30,12 @@
                 <el-card :body-style="{ padding: '0px', alignment: 'center'}" shadow="hover">
                   <img style="alignment: center;vertical-align: center;height: 100px; width: 100px"
                        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604572154625&di=4c4b5f14ccaa846a108215f39e9cc4c5&imgtype=0&src=http%3A%2F%2Fedu_img.bs2.100.com%2F723f5d12785e6f3243782b0.jpg"
-                       class="image">
+                       class="image" @click="enterinfomsg(item.id)">
                   <div>
-                    <span>{{ item.classes }}: {{item.tusername}}<br>要求： {{ item.req }} <br> </span><br>
+                    <span @click="enterinfomsg(item.id)">{{ item.classes }}: {{ item.tusername }}<br>要求： {{ item.req }} <br> </span><br>
                     <div class="bottom clearfix;" style="font-size: 10px">
-                      <time class="time"><strong>开始时间:</strong><br> {{ item.stime }}</time>
+                      <time class="time" @click="enterinfomsg(item.id)"><strong>开始时间:</strong><br> {{ item.stime }}
+                      </time>
                       <br>
                       <el-button type="text" size="mini" class="el-button--info" v-show="userType!=='student'"
                                  @click="modifyInfo(item.id)">修改
@@ -381,6 +382,10 @@ export default {
       if (this.is_student)
         return;
       this.delete('/makeup-exam/' + id);
+    },
+    enterinfomsg(id) {
+      window.location.href = "/makeupinfo?id=" + id;
+      localStorage.setItem("makeupid", id);
     },
     modifyInfo(id) {
       if (this.is_student)

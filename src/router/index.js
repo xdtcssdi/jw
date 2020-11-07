@@ -6,6 +6,8 @@ import teacher from "@/page/manage/make_up/teacher"
 import assignment from "../page/manage/assignment/assignment";
 import address from "../page/manage/message/address";
 import exam from "../page/manage/make_up/exam";
+import makeupinfo from "../page/manage/make_up/makeupinfo";
+import assignmentInner from "../page/manage/assignment/assignmentInner";
 
 Vue.use(Router);
 const routerConfig = [
@@ -40,6 +42,16 @@ const routerConfig = [
             requireAuth: true, // 判断是否需要登录
         },
     },
+
+    {
+        path: '/assignmentInner',
+        name: '我的作业管理',
+        icon: 'el-icon-menu',
+        component: assignmentInner,
+        meta: {
+            requireAuth: true, // 判断是否需要登录
+        },
+    },
     {
         path: '/address',
         name: '通讯录管理',
@@ -63,6 +75,15 @@ const routerConfig = [
         name: '监考老师信息管理',
         icon: 'el-icon-menu',
         component: teacher,
+        meta: {
+            requireAuth: true, // 判断是否需要登录
+        },
+    },
+    {
+        path: '/makeupinfo',
+        name: '考试课程信息',
+        icon: 'el-icon-menu',
+        component: makeupinfo,
         meta: {
             requireAuth: true, // 判断是否需要登录
         },
