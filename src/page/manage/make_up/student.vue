@@ -257,7 +257,6 @@ export default {
       return ""
     },
     fileChange: function (file) {
-      console.log(file.raw);
       this.uploadFile(file.raw);
     },
     uploadFile(file) {
@@ -320,13 +319,11 @@ export default {
     },
     createStudent(row) {
       this.isModify = false;
-      console.log(row);
       this.messageVisible = true;
       let _form = Object.assign({}, row);
       this.messageForm = _form;
     },
     saveStudent() {
-      console.log('save');
       let params = {
         'id': null,
         'username': this.messageForm.username,
@@ -334,12 +331,10 @@ export default {
         'phone': this.messageForm.phone,
         'email': this.messageForm.email
       };
-      console.log(params);
 
       this.save('/student/', params, 'messageVisible');
     },
     updateStudent() {
-      console.log('updateStudent');
       let params = {
         'id': this.messageForm.id,
         'username': this.messageForm.username,
@@ -347,7 +342,6 @@ export default {
         'phone': this.messageForm.phone,
         'email': this.messageForm.email
       };
-      console.log(params);
       this.update('/student/', params, 'messageVisible');
     },
     sendEmail(){
@@ -355,12 +349,10 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       }).then(({ value }) => {
-        console.log(this.multipleSelection[0].email);
         let url = "http://localhost:8080/user/sendMail?body="+value;
         this.multipleSelection.forEach((item) => {
           url += "&to=" + item.email;
         });
-        console.log(url);
         this.$http.get(url).then(({body}) => {
 
           if (body.success === true) {

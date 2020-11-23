@@ -102,9 +102,9 @@
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>
 
-        <el-form-item label="补考ID" prop="mid">
+        <el-form-item label="补考编号" prop="mid">
 
-          <el-input v-model="messageForm.mid" placeholder="请输入补考ID"></el-input>
+          <el-input v-model="messageForm.mid" placeholder="请输入补考编号"></el-input>
 
         </el-form-item>
 
@@ -180,7 +180,7 @@ export default {
       isModify: false,
       messageRule: {
         mid: [
-          {required: true, message: '请输入补考ID', trigger: 'blur'}
+          {required: true, message: '请输入补考编号', trigger: 'blur'}
         ],
         studentId: [
           {required: true, message: "请输入学生ID", trigger: "blur"},
@@ -202,7 +202,7 @@ export default {
         },
         {
           prop: "mid",
-          label: "考试ID",
+          label: "补考编号",
           "min-width": 50,
           align: "center",
         },
@@ -263,7 +263,6 @@ export default {
       this.$http
           .get("http://localhost:8080/assignment", {params: params})
           .then(({body}) => {
-            console.log(body.data.records);
             if (body.success === true) {
               responseText(body.data.records).forEach((item) => {
                 let t = item.file.split("/");
@@ -303,12 +302,10 @@ export default {
       return "";
     },
     fileChange: function (file) {
-      console.log(file.raw);
       this.file = file.raw;
       //this.uploadFile(file.raw);
     },
     download(id) {
-      console.log(id);
       window.location.href = "http://localhost:8080/down?id=" + id;
     },
     uploadFile(file) {
@@ -390,7 +387,6 @@ export default {
         form.append("studentId", this.messageForm.studentId);
       }
       form.append("score", 0);
-      console.log(this.messageForm);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",

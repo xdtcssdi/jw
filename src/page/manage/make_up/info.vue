@@ -25,7 +25,7 @@
 
         <div>
           <el-row>
-            <el-col :span="4" v-for="(item) in tableData" :key="item.examId" :offset="1">
+            <el-col :span="4" v-for="(item) in tableData" :key="item.id" :offset="1">
               <div style="margin-top:15px">
                 <el-card :body-style="{ padding: '0px', alignment: 'center'}" shadow="hover">
                   <img style="alignment: center;vertical-align: center;height: 100px; width: 100px"
@@ -51,41 +51,6 @@
           </el-row>
 
         </div>
-        <!--        <el-table-->
-        <!--            :data="tableData"-->
-        <!--            stripe-->
-        <!--            v-loading="loginLoading"-->
-        <!--            tooltip-effect="light"-->
-        <!--            height="100%"-->
-        <!--            style="width: 100%"-->
-        <!--            @selection-change="handleSelectionChange">-->
-        <!--          &lt;!&ndash;          <el-table-column type="selection" width="55"></el-table-column>&ndash;&gt;-->
-        <!--          <el-table-column-->
-        <!--              v-for="(data,index) in tableHeader"-->
-        <!--              :show-overflow-tooltip="true"-->
-        <!--              :key="index"-->
-        <!--              :prop="data.prop"-->
-        <!--              :label="data.label"-->
-        <!--              :min-width="data['min-width']"-->
-        <!--              :align="data.align">-->
-        <!--          </el-table-column>-->
-
-        <!--          <el-table-column-->
-        <!--              fixed="right"-->
-        <!--              label="操作"-->
-        <!--              align="center"-->
-        <!--              min-width="120">-->
-        <!--            <template slot-scope="scope">-->
-        <!--              <el-button type="text" size="mini" class="el-button&#45;&#45;info"-->
-        <!--                         @click="modifyInfo(scope.row.id)">修改-->
-        <!--              </el-button>-->
-        <!--              <el-button type="text" size="mini" class="danger-text"-->
-        <!--                         @click="deleteInfo(scope.row.id)">删除-->
-        <!--              </el-button>-->
-        <!--            </template>-->
-        <!--          </el-table-column>-->
-        <!--        </el-table>-->
-
       </div>
     </lyz-layout>
     <el-dialog :title="'补考信息'" :visible.sync="messageVisible" width="33%" center
@@ -93,16 +58,16 @@
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>
 
-        <el-form-item label="考试ID" prop="exam_id">
-          <el-input v-model="messageForm.exam_id" placeholder="请输入考试ID"></el-input>
+        <el-form-item label="补考编号" prop="exam_id">
+          <el-input v-model="messageForm.exam_id" placeholder="请输入补考编号"></el-input>
         </el-form-item>
 
         <el-form-item label="学科" prop="classes">
           <el-input v-model="messageForm.classes" placeholder="请输入学科名称"></el-input>
         </el-form-item>
 
-        <el-form-item label="学生ID" prop="student_id">
-          <el-input v-model="messageForm.student_id" placeholder="请输入学生ID"></el-input>
+        <el-form-item label="学号" prop="student_id">
+          <el-input v-model="messageForm.student_id" placeholder="请输入学生学号"></el-input>
         </el-form-item>
 
         <el-form-item label="考试要求" prop="req">
@@ -197,13 +162,13 @@ export default {
       isModify: false,
       messageRule: {
         exam_id: [
-          {required: true, message: '请输入考试ID', trigger: 'blur'}
+          {required: true, message: '请输入补考编号', trigger: 'blur'}
         ],
         classes: [
           {required: true, message: '请输入科目', trigger: 'blur'}
         ],
         student_id: [
-          {required: true, message: '请输入学生ID', trigger: 'blur'}
+          {required: true, message: '请输入学生学号', trigger: 'blur'}
         ],
         req: [
           {required: true, message: '请输入考试要求', trigger: 'blur'}
@@ -229,7 +194,7 @@ export default {
         },
         {
           prop: 'examId',
-          label: '考试ID',
+          label: '补考编号',
           'min-width': 60,
           align: 'center',
         },
@@ -241,7 +206,7 @@ export default {
         },
         {
           prop: 'studentId',
-          label: '学生ID',
+          label: '学生学号',
           'min-width': 60,
           align: 'center',
         },
@@ -315,7 +280,6 @@ export default {
             }
           })
           this.tableData = responseText(body.data.records);
-          console.log(this.tableData);
           this.pagination.total = body.data.records ? body.data.total : 0;
         } else {
           this.$message.error(body.message);
@@ -348,7 +312,6 @@ export default {
       return ""
     },
     fileChange: function (file) {
-      console.log(file.raw);
       this.uploadFile(file.raw);
     },
     uploadFile(file) {
@@ -440,12 +403,10 @@ export default {
         'stime': this.messageForm.stime,
         'etime': this.messageForm.etime,
       };
-      console.log(params);
 
       this.save('/makeup-exam/', params, "", 'messageVisible');
     },
     updateInfo() {
-      console.log('updateInfo');
       let params = {
         'id': this.messageForm.id,
         'examId': this.messageForm.exam_id,
@@ -455,7 +416,6 @@ export default {
         'stime': new Date(this.messageForm.stime),
         'etime': new Date(this.messageForm.etime),
       };
-      console.log(params);
       this.update('/makeup-exam/', params, "", 'messageVisible');
     }
   }

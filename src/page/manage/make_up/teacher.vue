@@ -266,7 +266,6 @@ export default {
       return ""
     },
     fileChange: function (file) {
-      console.log(file.raw);
       this.uploadFile(file.raw);
     },
     uploadFile(file) {
@@ -295,7 +294,6 @@ export default {
 
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(val);
     },
     deleteTeacher(id) {
       this.delete('/teacher/'+id);
@@ -334,13 +332,11 @@ export default {
     },
     createTeacher(row) {
       this.isModify = false;
-      console.log(row);
       this.messageVisible = true;
       let _form = Object.assign({}, row);
       this.messageForm = _form;
     },
     saveTeacher() {
-      console.log('save');
       let params = {
         'id': null,
         'username': this.messageForm.username,
@@ -349,12 +345,10 @@ export default {
         'phone': this.messageForm.phone,
         'email': this.messageForm.email
       };
-      console.log(params);
 
       this.save('/teacher/', params,"", 'messageVisible');
     },
     updateTeacher(){
-      console.log('updateTeacher');
       let params = {
         'id': this.messageForm.id,
         'username': this.messageForm.username,
@@ -363,7 +357,6 @@ export default {
         'phone': this.messageForm.phone,
         'email': this.messageForm.email
       };
-      console.log(params);
       this.update('/teacher/', params,"", 'messageVisible');
     },
     sendEmail(){
@@ -375,7 +368,6 @@ export default {
         this.multipleSelection.forEach((item) => {
           url += "&to=" + item.email;
         });
-        console.log(url);
         this.$http.get(url).then(({body}) => {
 
           if (body.success === true) {

@@ -124,10 +124,8 @@ export default {
       let subjectid = query.id;
 
       this.$http.get("http://localhost:8080/makeup-exam/"+subjectid).then(({body})=>{
-        console.log(body);
         if (body.success===true){
           this.subjectName = body.data.classes;
-          console.log(this.subjectName);
         }
       });
 

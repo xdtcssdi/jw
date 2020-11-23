@@ -18,83 +18,86 @@
         >&nbsp;
       </div>
       <div slot="main" class="main-body">
-
-        <!--        <div>-->
-        <!--          <el-row>-->
-        <!--            <el-col :span="4" v-for="(item) in tableData" :key="item.examId" :offset="1">-->
-        <!--              <div style="margin-top:15px">-->
-        <!--                <el-card :body-style="{ padding: '0px', alignment: 'center'}" shadow="hover">-->
-        <!--                  <img style="alignment: center;vertical-align: center;height: 100px; width: 100px"-->
-        <!--                       src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604572154625&di=4c4b5f14ccaa846a108215f39e9cc4c5&imgtype=0&src=http%3A%2F%2Fedu_img.bs2.100.com%2F723f5d12785e6f3243782b0.jpg"-->
-        <!--                       class="image">-->
-        <!--                  <div>-->
-        <!--                    <span>{{ item.classes }}: {{item.tusername}}<br>要求： {{ item.req }} <br> </span><br>-->
-        <!--                    <div class="bottom clearfix;" style="font-size: 10px">-->
-        <!--                      <time class="time"><strong>开始时间:</strong><br> {{ item.stime }}</time>-->
-        <!--                      <br>-->
-        <!--                      <el-button type="text" size="mini" class="el-button&#45;&#45;info" v-show="userType!=='student'"-->
-        <!--                                 @click="modifyInfo(item.id)">修改-->
-        <!--                      </el-button>-->
-        <!--                      <el-button type="text" size="mini" class="danger-text" v-show="userType!=='student'"-->
-        <!--                                 @click="deleteInfo(item.id)">删除-->
-        <!--                      </el-button>-->
-        <!--                    </div>-->
-        <!--                  </div>-->
-        <!--                </el-card>-->
-        <!--              </div>-->
-        <!--            </el-col>-->
-        <!--          </el-row>-->
-
-        <!--        </div>-->
-
-
-        <el-table
-            :data="tableData"
-            stripe
-            v-loading="loginLoading"
-            tooltip-effect="light"
-            height="100%"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
-        >
+<!--        <el-table-->
+<!--            :data="tableData"-->
+<!--            stripe-->
+<!--            v-loading="loginLoading"-->
+<!--            tooltip-effect="light"-->
+<!--            height="100%"-->
+<!--            style="width: 100%"-->
+<!--            @selection-change="handleSelectionChange"-->
+<!--        >-->
           <!--          <el-table-column type="selection" width="55"></el-table-column>-->
-          <el-table-column
-              v-for="(data, index) in tableHeader"
-              :show-overflow-tooltip="true"
-              :key="index"
-              :prop="data.prop"
-              :label="data.label"
-              :min-width="data['min-width']"
-              :align="data.align"
-          >
-          </el-table-column>
+<!--          <el-table-column-->
+<!--              v-for="(data, index) in tableHeader"-->
+<!--              :show-overflow-tooltip="true"-->
+<!--              :key="index"-->
+<!--              :prop="data.prop"-->
+<!--              :label="data.label"-->
+<!--              :min-width="data['min-width']"-->
+<!--              :align="data.align"-->
+<!--          >-->
+<!--          </el-table-column>-->
 
-          <el-table-column label="文件下载" min-width="250">
-            <template slot-scope="scope">
-              <el-button @click="download(scope.row.id)">下载</el-button>
-            </template>
-          </el-table-column>
 
-          <el-table-column
-              fixed="right"
-              label="操作"
-              align="center"
-              min-width="120"
-          >
-            <template slot-scope="scope">
-              <el-button
-                  type="text"
-                  size="mini"
-                  class="el-button--Assignment"
-                  @click="modifyAssignment(scope.row.id)"
-              >修改
-              </el-button>
-              <el-button type="text" size="mini" class="danger-text"
-                         @click="deleteAssignment(scope.row.id)">删除
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+          <el-row>
+            <el-col :span="4" v-for="(item) in tableData" :key="item.id" :offset="1">
+              <div style="margin-top:15px">
+                <el-card :body-style="{ padding: '0px', alignment: 'center'}" shadow="hover">
+                  <img style="alignment: center;vertical-align: center;height: 100px; width: 100px"
+                       src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604572154625&di=4c4b5f14ccaa846a108215f39e9cc4c5&imgtype=0&src=http%3A%2F%2Fedu_img.bs2.100.com%2F723f5d12785e6f3243782b0.jpg"
+                       class="image" @click="enterinfomsg(item.id)">
+                  <div>
+                    <span @click="enterinfomsg(item.id)">{{ item.file }}</span><br>
+                    <div class="bottom clearfix;" style="font-size: 10px">
+                      <br>
+                      <el-button
+                          type="text"
+                          size="mini"
+                          class="el-button--Assignment"
+                          @click="modifyAssignment(item.id)"
+                      >修改
+                      </el-button>
+                      <el-button type="text" size="mini" class="danger-text" v-show="userType!=='student'"
+                                 @click="deleteInfo(item.id)">删除
+
+                      </el-button>
+                      <el-button @click="download(item.id)">下载</el-button>
+
+                    </div>
+                  </div>
+                </el-card>
+              </div>
+            </el-col>
+          </el-row>
+
+
+<!--          <el-table-column label="文件下载" min-width="250">-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-button @click="download(scope.row.id)">下载</el-button>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+
+<!--          <el-table-column-->
+<!--              fixed="right"-->
+<!--              label="操作"-->
+<!--              align="center"-->
+<!--              min-width="120"-->
+<!--          >-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-button-->
+<!--                  type="text"-->
+<!--                  size="mini"-->
+<!--                  class="el-button&#45;&#45;Assignment"-->
+<!--                  @click="modifyAssignment(scope.row.id)"-->
+<!--              >修改-->
+<!--              </el-button>-->
+<!--              <el-button type="text" size="mini" class="danger-text"-->
+<!--                         @click="deleteAssignment(scope.row.id)">删除-->
+<!--              </el-button>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+<!--        </el-table>-->
       </div>
     </lyz-layout>
     <el-dialog :title="'作业信息'" :visible.sync="messageVisible" width="33%" center
@@ -102,9 +105,9 @@
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>
 
-        <el-form-item label="补考ID" prop="mid">
+        <el-form-item label="补考编号" prop="mid">
 
-          <el-input v-model="messageForm.mid" placeholder="请输入补考ID"></el-input>
+          <el-input v-model="messageForm.mid" placeholder="请输入补考编号"></el-input>
 
         </el-form-item>
 
@@ -163,6 +166,7 @@ export default {
   data() {
     return {
       score: 0,
+      userType: localStorage.type,
       u_id: localStorage.id,
       limitNum: 1, // 上传excell时，同时允许上传的最大数
       pagination: {
@@ -178,10 +182,10 @@ export default {
       isModify: false,
       messageRule: {
         mid: [
-          {required: true, message: '请输入补考ID', trigger: 'blur'}
+          {required: true, message: '请输入补考编号', trigger: 'blur'}
         ],
         studentId: [
-          {required: true, message: "请输入学生ID", trigger: "blur"},
+          {required: true, message: "请输入学生学号", trigger: "blur"},
         ],
         file: [{required: true, message: "请上传作业", trigger: "blur"}],
         score: [{required: true, message: "请输入分数", trigger: "blur"}],
@@ -200,13 +204,13 @@ export default {
         },
         {
           prop: "mid",
-          label: "考试ID",
+          label: "补考编号",
           "min-width": 50,
           align: "center",
         },
         {
           prop: "studentId",
-          label: "学生ID",
+          label: "学生学号",
           "min-width": 60,
           align: "center",
         },
@@ -253,11 +257,9 @@ export default {
           id: localStorage.id,
         };
       }
-      console.log(params);
       this.$http
           .get("http://localhost:8080/assignment", {params: params})
           .then(({body}) => {
-            console.log(body.data.records);
             if (body.success === true) {
               responseText(body.data.records).forEach((item) => {
                 let t = item.file.split("/");
@@ -297,7 +299,6 @@ export default {
       return "";
     },
     fileChange: function (file) {
-      console.log(file.raw);
       this.file = file.raw;
       //this.uploadFile(file.raw);
     },
@@ -325,7 +326,6 @@ export default {
       // });
     },
     download(id) {
-      console.log(id);
       window.location.href = "http://localhost:8080/down?id=" + id;
     },
     handleSelectionChange(val) {
@@ -383,7 +383,6 @@ export default {
         form.append("studentId", this.messageForm.studentId);
       }
       form.append("score", 0);
-      console.log(this.messageForm);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
