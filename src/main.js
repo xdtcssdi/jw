@@ -5,9 +5,17 @@ import App from './App';
 // 引入和使用elementUI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
 import VueResource from 'vue-resource';
 import './config/http'
-Vue.use(ElementUI);
+
+// import Chat from 'jwchat';
+// import 'jwchat/lib/JwChat.css';
+// Vue.use(Chat);
+
+import Chat from 'vue-beautiful-chat'
+Vue.use(Chat)
 
 // 路由判断登录 根据路由配置文件的参数
 router.beforeEach((to, from, next) => {

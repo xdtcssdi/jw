@@ -89,6 +89,7 @@ const routerConfig = [
         },
     },
 
+
 ]
 const router = new Router({
     mode: 'history',

@@ -71,6 +71,10 @@
       <el-form :model="messageForm" :label-width="messageLabelWidth" ref="messageForm" :rules="messageRule"
                :validate-on-rule-change=false>
 
+       <el-form-item label="学号" prop="id">
+          <el-input v-model="messageForm.id" placeholder="请输入学号"></el-input>
+        </el-form-item>
+
         <el-form-item label="用户名" prop="username">
           <el-input v-model="messageForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
@@ -149,6 +153,9 @@ export default {
       messageLabelWidth: '90px',
       isModify: false,
       messageRule: {
+        id: [
+          {required: true, message: '请输入学号', trigger: 'blur'}
+        ],
         username: [
           {required: true, message: '请输入用户名', trigger: 'blur'}
         ],
@@ -169,7 +176,7 @@ export default {
       tableHeader: [
         {
           prop: 'id',
-          label: 'ID',
+          label: '学号',
           'min-width': 40,
           align: 'center',
         },
@@ -325,13 +332,12 @@ export default {
     },
     saveStudent() {
       let params = {
-        'id': null,
+        'id': Number.parseInt(this.messageForm.id),
         'username': this.messageForm.username,
         'password': this.messageForm.password,
         'phone': this.messageForm.phone,
         'email': this.messageForm.email
       };
-
       this.save('/student/', params, 'messageVisible');
     },
     updateStudent() {

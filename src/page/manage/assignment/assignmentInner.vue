@@ -46,9 +46,9 @@
                 <el-card :body-style="{ padding: '0px', alignment: 'center'}" shadow="hover">
                   <img style="alignment: center;vertical-align: center;height: 100px; width: 100px"
                        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604572154625&di=4c4b5f14ccaa846a108215f39e9cc4c5&imgtype=0&src=http%3A%2F%2Fedu_img.bs2.100.com%2F723f5d12785e6f3243782b0.jpg"
-                       class="image" @click="enterinfomsg(item.id)">
+                       class="image" @click="modifyAssignment(item.id)">
                   <div>
-                    <span @click="enterinfomsg(item.id)">{{ item.file }}</span><br>
+                    <span @click="modifyAssignment(item.id)">{{ item.file }}</span><br>
                     <div class="bottom clearfix;" style="font-size: 10px">
                       <br>
                       <el-button
@@ -106,18 +106,19 @@
                :validate-on-rule-change=false>
 
         <el-form-item label="补考编号" prop="mid">
-
-          <el-input v-model="messageForm.mid" placeholder="请输入补考编号"></el-input>
+          <el-input v-model="messageForm.mid" disabled></el-input>
 
         </el-form-item>
 
-        <el-form-item label="学生ID" prop="studentId" id="xsl">
+        <el-form-item label="学生学号" prop="studentId" id="xsl">
           <el-input
               v-model="messageForm.studentId"
               :value="u_id"
               disabled
           ></el-input>
         </el-form-item>
+
+
         <el-form-item v-show="u_type !== 'student'" label="分数" prop="score">
           <el-input-number
               v-model="messageForm.score"
@@ -180,6 +181,7 @@ export default {
       messageVisible: false,
       messageLabelWidth: "90px",
       isModify: false,
+      makeupid:localStorage.getItem("makeupid"),
       messageRule: {
         mid: [
           {required: true, message: '请输入补考编号', trigger: 'blur'}
@@ -371,7 +373,10 @@ export default {
       this.messageVisible = true;
       let _form = Object.assign({}, row);
       this.messageForm = _form;
-      if (localStorage.type === "student") _form.studentId = localStorage.id;
+      if (localStorage.type === "student") {
+        _form.studentId = localStorage.id;
+        _form.mid = this.makeupid;
+        };
     },
     saveAssignment() {
       let form = new FormData();

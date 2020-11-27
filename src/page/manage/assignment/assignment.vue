@@ -104,11 +104,11 @@
 
         <el-form-item label="补考编号" prop="mid">
 
-          <el-input v-model="messageForm.mid" placeholder="请输入补考编号"></el-input>
+          <el-input v-model="messageForm.mid" placeholder="请输入补考编号" disabled></el-input>
 
         </el-form-item>
 
-        <el-form-item label="学生ID" prop="studentId" id="xsl">
+        <el-form-item label="学生学号" prop="studentId" id="xsl">
           <el-input
               v-model="messageForm.studentId"
               :value="u_id"
@@ -183,7 +183,7 @@ export default {
           {required: true, message: '请输入补考编号', trigger: 'blur'}
         ],
         studentId: [
-          {required: true, message: "请输入学生ID", trigger: "blur"},
+          {required: true, message: "请输入学生学号", trigger: "blur"},
         ],
         file: [{required: true, message: "请上传作业", trigger: "blur"}],
         score: [{required: true, message: "请输入分数", trigger: "blur"}],
@@ -208,7 +208,7 @@ export default {
         },
         {
           prop: "studentId",
-          label: "学生ID",
+          label: "学生学号",
           "min-width": 60,
           align: "center",
         },
