@@ -7,7 +7,7 @@
         @handleSizeChange="handleSizeChange"
         @handleCurrentChange="handleCurrentChange">
 
-        
+
       <div slot="banner" class="top-right">
 
       </div>
@@ -20,6 +20,7 @@
             tooltip-effect="light"
             height="100%"
             style="width: 100%">
+          <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column
               v-for="(data,index) in tableHeader"
               :show-overflow-tooltip="true"
@@ -32,38 +33,43 @@
 
         </el-table>
 
-        
+
       </div>
     </lyz-layout>
 
 
     <div>
-    <beautiful-chat
-      :participants="participants"
-      :titleImageUrl="titleImageUrl"
-      :onMessageWasSent="onMessageWasSent"
-      :messageList="messageList"
-      :newMessagesCount="newMessagesCount"
-      :isOpen="isChatOpen"
-      :close="closeChat"
-      :icons="icons"
-      :open="openChat"
-      :showEdition="true"
-      :showDeletion="true"
-      :showTypingIndicator="showTypingIndicator"
-      :showLauncher="true"
-      :showCloseButton="true"
-      :colors="colors"
-      :alwaysScrollToBottom="alwaysScrollToBottom"
-      :messageStyling="messageStyling"
-      @onType="handleOnType"
-      @edit="editMessage" />
-  </div>
-  
+      <beautiful-chat
+          :participants="participants"
+          :titleImageUrl="titleImageUrl"
+          :onMessageWasSent="onMessageWasSent"
+          :messageList="messageList"
+          :newMessagesCount="newMessagesCount"
+          :isOpen="isChatOpen"
+          :close="closeChat"
+          :icons="icons"
+          :open="openChat"
+          :showEdition="true"
+          :showDeletion="true"
+          :showTypingIndicator="showTypingIndicator"
+          :showLauncher="true"
+          :showCloseButton="true"
+          :colors="colors"
+          :alwaysScrollToBottom="alwaysScrollToBottom"
+          :messageStyling="messageStyling"
+          @onType="handleOnType"
+          @edit="editMessage"/>
+    </div>
+
   </div>
 
-  
+
 </template>
+
+
+<script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+
 
 <script>
 
@@ -93,9 +99,11 @@ export default {
       messageLabelWidth: '90px',
       isModify: false,
       u_type: localStorage.type,
+      u_name: localStorage.username,
       multipleSelection: [],//多选的数据
       pickerOptions: {},
       tableData: [],
+      webSocket: '',
       loginLoading: false,
       tableHeader: [
         {
@@ -123,20 +131,20 @@ export default {
           align: 'center',
         }
       ],
-      icons:{
-        open:{
+      icons: {
+        open: {
           img: OpenIcon,
           name: 'default',
         },
-        close:{
+        close: {
           img: CloseIcon,
           name: 'default',
         },
-        file:{
+        file: {
           img: FileIcon,
           name: 'default',
         },
-        closeSvg:{
+        closeSvg: {
           img: CloseIconSvg,
           name: 'default',
         },
@@ -149,14 +157,14 @@ export default {
         },
         {
           id: 'user2',
-          name: 'Support',
+          name: localStorage.username,
           imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
         }
       ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
       titleImageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png',
       messageList: [
-          { type: 'text', author: `me`, data: { text: `Say yes!` } },
-          { type: 'text', author: `user1`, data: { text: `No.` } }
+        // { type: 'text', author: localStorage.username, data: { text: 'Say yes!' } },
+        // { type: 'text', author: `user1`, data: { text: `No.` } }
       ], // the list of the messages to show, can be paginated and adjusted dynamically
       newMessagesCount: 0,
       isChatOpen: false, // to determine whether the chat window should be open or closed
@@ -187,7 +195,7 @@ export default {
       }, // specifies the color scheme for the component
       alwaysScrollToBottom: false, // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
       messageStyling: true, // enables *bold* /emph/ _underline_ and such (more info at github.com/mattezza/msgdown)
-    
+
     };
   },
   components: {
@@ -196,8 +204,31 @@ export default {
   mixins: [manage],
   created() {
     this.queryList();
+    this.createWebSocket();
   },
   mounted() {
+    if (this.u_type === 'teacher') {
+      this.tableHeader = [
+        {
+          prop: 'username',
+          label: '学生',
+          'min-width': 60,
+          align: 'center',
+        },
+        {
+          prop: 'phone',
+          label: '电话',
+          'min-width': 60,
+          align: 'center',
+        },
+        {
+          prop: 'email',
+          label: '邮箱',
+          'min-width': 120,
+          align: 'center',
+        }
+      ]
+    }
   },
   methods: {
     queryList() {
@@ -222,42 +253,128 @@ export default {
         this.loginLoading = false;
       })
     },
-    sendMessage (text) {
+    sendMessage(text) {
       if (text.length > 0) {
         this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
-        this.onMessageWasSent({ author: 'support', type: 'text', data: { text } })
+        this.onMessageWasSent({author: this.u_name, type: 'text', data: {text}})
       }
     },
-    onMessageWasSent (message) {
+    onMessageWasSent(message) {
       // called when the user sends a message
-      this.messageList = [ ...this.messageList, message ]
+      this.messageList = [...this.messageList, message]
+
+      this.webSocket.send(JSON.stringify({
+        "message": message['data']['text'],
+        "username": localStorage.username,
+        "to": "All"
+      }));
     },
-    openChat () {
+    recMessageWasSent(message) {
+      // called when the user sends a message
+      this.messageList = [...this.messageList, message]
+    },
+    openChat() {
       // called when the user clicks on the fab button to open the chat
       this.isChatOpen = true
       this.newMessagesCount = 0
     },
-    closeChat () {
+    closeChat() {
       // called when the user clicks on the botton to close the chat
       this.isChatOpen = false
     },
-    handleScrollToTop () {
+    handleScrollToTop() {
       // called when the user scrolls message list to top
       // leverage pagination for loading another page of messages
     },
-    handleOnType () {
-      console.log('Emit typing event')
+    handleOnType() {
+      // console.log('Emit typing event')
     },
-    editMessage(message){
-      const m = this.messageList.find(m=>m.id === message.id);
+    editMessage(message) {
+      const m = this.messageList.find(m => m.id === message.id);
       m.isEdited = true;
       m.data.text = message.data.text;
-    }
+    }, createWebSocket() {
+      if ("WebSocket" in window) {
+        this.webSocket = new WebSocket("ws://localhost:8080/websocket/" + this.u_name);
+
+        //连通之后的回调事件
+        this.webSocket.onopen = function () {
+          console.log("已经连通了websocket");
+        };
+
+        //接收后台服务端的消息
+        this.webSocket.onmessage = this.onmessage;
+
+        //连接关闭的回调事件
+        this.webSocket.onclose = function () {
+          console.log("连接已关闭...");
+          // setMessageInnerHTML("连接已经关闭....");
+        };
+      } else {
+        // 浏览器不支持 WebSocket
+        alert("您的浏览器不支持 WebSocket!");
+      }
+    }, onmessage(evt) {
+      var received_msg = evt.data;
+      console.log("数据已接收:" + received_msg);
+      var obj = JSON.parse(received_msg);
+      if (obj['tousername'] === localStorage.username) {
+        let message = {type: 'text', author: obj['fromusername'], data: {text: obj['textMessage']}};
+        // this.messageList = [...this.messageList, message]
+        this.recMessageWasSent(message);
+        return;
+      }
+      console.log("可以解析成json:" + obj.messageType);
+      //1代表上线 2代表下线 3代表在线名单 4代表普通消息
+      if (obj.messageType == 1) {
+        //把名称放入到selection当中供选择
+        var onlineName = obj.username;
+        console.log(onlineName);
+        // var option = "<option>"+onlineName+"</option>";
+        // $("#onLineUser").append(option);
+        // setMessageInnerHTML(onlineName+"上线了");
+      } else if (obj.messageType == 2) {
+        $("#onLineUser").empty();
+        var onlineName = obj.onlineUsers;
+        var offlineName = obj.username;
+        // var option = "<option>"+"--所有--"+"</option>";
+        // for(var i=0;i<onlineName.length;i++){
+        //   if(!(onlineName[i]==document.getElementById('username').value)){
+        //     option+="<option>"+onlineName[i]+"</option>"
+        //   }
+        // }
+        // $("#onLineUser").append(option);
+        //
+        // setMessageInnerHTML(offlineName+"下线了");
+      } else if (obj.messageType == 3) {
+        var onlineName = obj.onlineUsers;
+        var option = null;
+        // for(var i=0;i<onlineName.length;i++){
+        //   if(!(onlineName[i]==document.getElementById('username').value)){
+        //     option+="<option>"+onlineName[i]+"</option>"
+        //   }
+        // }
+        // $("#onLineUser").append(option);
+        console.log("获取了在线的名单" + onlineName.toString());
+      } else {
+        // setMessageInnerHTML(obj.fromusername+"对"+obj.tousername+"说："+obj.textMessage);
+      }
+    },
+    // 单选框选中数据
+    handleSelectionChange(selection) {
+      this.checkedGh = selection[0].gh;
+      if (selection.length > 1) {
+        this.$refs.tb.clearSelection();
+        this.$refs.tb.toggleRowSelection(selection.pop());
+      }
+    },
+
 
   }
 
 }
 </script>
+
 
 <style scoped>
 .main-login {
@@ -267,4 +384,5 @@ export default {
 .danger-text {
   color: #F56C6C;
 }
+
 </style>
