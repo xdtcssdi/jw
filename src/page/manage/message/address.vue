@@ -19,7 +19,8 @@
             v-loading="loginLoading"
             tooltip-effect="light"
             height="100%"
-            style="width: 100%">
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column
               v-for="(data,index) in tableHeader"
@@ -40,6 +41,7 @@
 
     <div>
       <beautiful-chat
+          :title="chatTitle"
           :participants="participants"
           :titleImageUrl="titleImageUrl"
           :onMessageWasSent="onMessageWasSent"
@@ -94,7 +96,9 @@ export default {
         total: 0,
       },
       label: '通讯录管理',
+      chatTitle:'聊天室',
       messageForm: {},
+      toUser: '',
       messageVisible: false,
       messageLabelWidth: '90px',
       isModify: false,
@@ -151,12 +155,7 @@ export default {
       },
       participants: [
         {
-          id: 'user1',
-          name: 'Matteo',
-          imageUrl: 'https://avatars3.githubusercontent.com/u/1915989?s=230&v=4'
-        },
-        {
-          id: 'user2',
+          id: 'self',
           name: localStorage.username,
           imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
         }
@@ -261,12 +260,16 @@ export default {
     },
     onMessageWasSent(message) {
       // called when the user sends a message
+      if (this.toUser === '') {
+        this.$message.error("未选择聊天对象");
+        return;
+      }
       this.messageList = [...this.messageList, message]
 
       this.webSocket.send(JSON.stringify({
         "message": message['data']['text'],
         "username": localStorage.username,
-        "to": "All"
+        "to": this.toUser
       }));
     },
     recMessageWasSent(message) {
@@ -360,9 +363,33 @@ export default {
         // setMessageInnerHTML(obj.fromusername+"对"+obj.tousername+"说："+obj.textMessage);
       }
     },
-    // 单选框选中数据
     handleSelectionChange(selection) {
-      this.checkedGh = selection[0].gh;
+      // this.multipleSelection = selection;
+      this.checkedGh = selection[0];
+      if (this.checkedGh !== undefined) {
+        this.toUser = this.checkedGh.username;
+        this.participants = [
+          {
+            id: 'self',
+            name: localStorage.username,
+            imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
+          }, {
+            id: 'to',
+            name: this.toUser,
+            imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
+          }
+        ]
+      } else {
+        this.toUser = '';
+        this.participants = [
+          {
+            id: 'self',
+            name: localStorage.username,
+            imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
+          }
+        ]
+      }
+
       if (selection.length > 1) {
         this.$refs.tb.clearSelection();
         this.$refs.tb.toggleRowSelection(selection.pop());
